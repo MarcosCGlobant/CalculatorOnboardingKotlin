@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="activity_calculation_label_text_size">40sp</dimen>
+    <dimen name="activity_input_label_text_size">25sp</dimen>
+    <dimen name="activity_input_label_height">30dp</dimen>
+    <dimen name="activity_button_text_size">30sp</dimen>
+    <dimen name="activity_border_stroke_width">2dp</dimen>
+    <dimen name="activity_button_width">0dp</dimen>
+    <dimen name="activity_button_height">0dp</dimen>
+</resources>
