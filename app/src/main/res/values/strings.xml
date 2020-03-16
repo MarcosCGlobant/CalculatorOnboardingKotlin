@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">CalculatorOnboardingKotlin</string>
+    <string name="app_name">Calculator Onboarding</string>
+    <string name="button_zero">0</string>
+    <string name="clear">Clear</string>
+    <string name="button_one">1</string>
+    <string name="button_two">2</string>
+    <string name="button_three">3</string>
+    <string name="button_four">4</string>
+    <string name="button_five">5</string>
+    <string name="button_six">6</string>
+    <string name="button_seven">7</string>
+    <string name="button_eight">8</string>
+    <string name="button_nine">9</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="multiply">*</string>
+    <string name="divide">/</string>
+    <string name="equals">=</string>
+    <string name="label">0</string>
+    <string name="dot_button">.</string>
+    <string name="invalid_operation">Invalid operation</string>
+    <string name="delete_button">Del</string>
+    <string name="false_option">false</string>
 </resources>
