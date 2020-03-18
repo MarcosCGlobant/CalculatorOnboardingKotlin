@@ -11,11 +11,11 @@ class CalculatorView(activity: Activity) : ActivityView(activity), CalculatorCon
     private val calculationLabel: TextView = activity.calculation_label
     private val inputLabel: TextView = activity.input_label
 
-    override fun showResult(result: String?) {
+    override fun showResult(result: String) {
         calculationLabel.text = result
     }
 
-    override fun showInputPressed(operator: String?) {
+    override fun showInputPressed(operator: String) {
         inputLabel.text = operator
     }
 }

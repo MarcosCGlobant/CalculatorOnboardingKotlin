@@ -5,11 +5,9 @@ import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.EMPTY_ST
 
 class CalculatorModel : CalculatorContracts.Model {
 
-    override var firstNumber: String? = EMPTY_STRING
-
-    override var secondNumber: String? = EMPTY_STRING
-
-    override var operator: String? = EMPTY_STRING
+    override var firstNumber: String = EMPTY_STRING
+    override var secondNumber: String = EMPTY_STRING
+    override var operator: String = EMPTY_STRING
 
     override fun clear() {
         firstNumber = EMPTY_STRING

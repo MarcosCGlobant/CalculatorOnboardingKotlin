@@ -2,6 +2,7 @@ package com.globant.calculatoronboardingkotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import com.globant.calculatoronboardingkotlin.mvp.model.CalculatorModel
 import com.globant.calculatoronboardingkotlin.mvp.presenter.CalculatorPresenter
 import com.globant.calculatoronboardingkotlin.mvp.view.CalculatorView
@@ -41,7 +42,7 @@ import kotlinx.android.synthetic.main.activity_main.button_main_subtraction
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var presenter: CalculatorPresenter
+    private lateinit var presenter: CalculatorContracts.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
