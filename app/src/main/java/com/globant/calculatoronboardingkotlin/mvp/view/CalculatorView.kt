@@ -1,21 +1,21 @@
 package com.globant.calculatoronboardingkotlin.mvp.view
 
 import android.app.Activity
+import android.widget.TextView
+import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import kotlinx.android.synthetic.main.activity_main.calculation_label
 import kotlinx.android.synthetic.main.activity_main.input_label
 
-class CalculatorView(activity: Activity) : ActivityView(activity) {
+class CalculatorView(activity: Activity) : ActivityView(activity), CalculatorContracts.View {
 
-    fun showResult(result: String?) {
-        activity?.calculation_label?.text = result
+    private val calculationLabel: TextView = activity.calculation_label
+    private val inputLabel: TextView = activity.input_label
+
+    override fun showResult(result: String?) {
+        calculationLabel.text = result
     }
 
-    fun showNumberPressed(number: String?) {
-        activity?.input_label?.text = number
+    override fun showInputPressed(operator: String?) {
+        inputLabel.text = operator
     }
-
-    fun showOperationPressed(operator: String?) {
-        activity?.input_label?.text = operator
-    }
-
 }

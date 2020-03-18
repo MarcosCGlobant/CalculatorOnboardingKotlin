@@ -2,7 +2,6 @@ package com.globant.calculatoronboardingkotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.calculatoronboardingkotlin.R
 import com.globant.calculatoronboardingkotlin.mvp.model.CalculatorModel
 import com.globant.calculatoronboardingkotlin.mvp.presenter.CalculatorPresenter
 import com.globant.calculatoronboardingkotlin.mvp.view.CalculatorView

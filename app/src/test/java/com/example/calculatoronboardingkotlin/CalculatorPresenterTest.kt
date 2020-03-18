@@ -1,5 +1,6 @@
 package com.example.calculatoronboardingkotlin
 
+import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import com.globant.calculatoronboardingkotlin.mvp.model.CalculatorModel
 import com.globant.calculatoronboardingkotlin.mvp.presenter.CalculatorPresenter
 import com.globant.calculatoronboardingkotlin.mvp.view.CalculatorView
@@ -14,15 +15,15 @@ import org.mockito.Mockito.verify
 
 class CalculatorPresenterTest {
 
-    private val model: CalculatorModel = CalculatorModel()
-    private val mockedView: CalculatorView = mock(CalculatorView::class.java)
-    private val presenter: CalculatorPresenter = CalculatorPresenter(model, mockedView)
+    private val model: CalculatorContracts.Model = CalculatorModel()
+    private val mockedView: CalculatorContracts.View = mock(CalculatorView::class.java)
+    private val presenter: CalculatorContracts.Presenter = CalculatorPresenter(model, mockedView)
 
     @Test
     fun onClearButtonPressedClearTheModelAndTheView() {
         presenter.onClearButtonPressed()
 
-        verify(mockedView).showOperationPressed(EMPTY_STRING)
+        verify(mockedView).showInputPressed(EMPTY_STRING)
         verify(mockedView).showResult(EMPTY_STRING)
 
         assertEquals(EMPTY_STRING, model.firstNumber)
@@ -34,7 +35,7 @@ class CalculatorPresenterTest {
     fun onActionButtonPressedSaveValueOnModelAndShowInput() {
         presenter.onActionButtonPressed(MINUS)
 
-        verify(mockedView).showOperationPressed(MINUS)
+        verify(mockedView).showInputPressed(MINUS)
 
         assertEquals(MINUS, model.operator)
     }
@@ -43,7 +44,7 @@ class CalculatorPresenterTest {
     fun onNumberButtonPressedSaveValueOnMOdelAndShowInput() {
         presenter.onNumberButtonPressed(NUMBER_ONE)
 
-        verify(mockedView).showNumberPressed(NUMBER_ONE)
+        verify(mockedView).showInputPressed(NUMBER_ONE)
 
         assertEquals(NUMBER_ONE, model.firstNumber)
     }

@@ -1,33 +1,34 @@
 package com.globant.calculatoronboardingkotlin.mvp.presenter
 
-import com.globant.calculatoronboardingkotlin.mvp.model.CalculatorModel
-import com.globant.calculatoronboardingkotlin.mvp.view.CalculatorView
+import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.EMPTY_STRING
 
-class CalculatorPresenter(private val model: CalculatorModel, private val view: CalculatorView) {
+class CalculatorPresenter(
+    private val model: CalculatorContracts.Model,
+    private val view: CalculatorContracts.View
+) : CalculatorContracts.Presenter {
 
-    fun onClearButtonPressed() {
+    override fun onClearButtonPressed() {
         model.clear()
-        view.showOperationPressed(EMPTY_STRING)
+        view.showInputPressed(EMPTY_STRING)
         view.showResult(EMPTY_STRING)
     }
 
-    fun onDeleteCurrentNumberButtonPressed() {
+    override fun onDeleteCurrentNumberButtonPressed() {
         // TODO next task
     }
 
-    fun onActionButtonPressed(action: String) {
+    override fun onActionButtonPressed(action: String) {
         model.operator = action
-        view.showOperationPressed(model.operator)
+        view.showInputPressed(model.operator)
     }
 
-    fun onEqualsButtonPressed() {
+    override fun onEqualsButtonPressed() {
         // TODO next task
     }
 
-    fun onNumberButtonPressed(number: String) {
+    override fun onNumberButtonPressed(number: String) {
         model.firstNumber = number
-        view.showNumberPressed(model.firstNumber)
+        view.showInputPressed(model.firstNumber)
     }
-
 }
