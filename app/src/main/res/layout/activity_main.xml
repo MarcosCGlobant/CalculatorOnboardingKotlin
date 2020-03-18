@@ -78,7 +78,7 @@
             style="@style/numberButtonStyle"
             android:text="@string/text_button_three"
             app:layout_constraintBottom_toTopOf="@id/button_main_dot"
-            app:layout_constraintEnd_toStartOf="@id/_button_main_equals"
+            app:layout_constraintEnd_toStartOf="@id/button_main_equals"
             app:layout_constraintStart_toEndOf="@id/button_main_number_two"
             app:layout_constraintTop_toBottomOf="@id/button_main_number_six" />
 
@@ -149,7 +149,7 @@
             android:id="@+id/button_main_add"
             style="@style/actionButtonStyle"
             android:text="@string/text_plus"
-            app:layout_constraintBottom_toTopOf="@id/_button_main_equals"
+            app:layout_constraintBottom_toTopOf="@id/button_main_equals"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/button_main_number_six"
             app:layout_constraintTop_toBottomOf="@id/button_main_subtraction" />
@@ -182,7 +182,7 @@
             app:layout_constraintTop_toBottomOf="@id/input_label" />
 
         <Button
-            android:id="@+id/_button_main_equals"
+            android:id="@+id/button_main_equals"
             style="@style/clearButtonStyle"
             android:text="@string/text_equals"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -195,7 +195,7 @@
             style="@style/numberButtonStyle"
             android:text="@string/text_dot_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/_button_main_equals"
+            app:layout_constraintEnd_toStartOf="@id/button_main_equals"
             app:layout_constraintStart_toEndOf="@id/button_main_number_zero"
             app:layout_constraintTop_toBottomOf="@id/button_main_number_three" />
     </androidx.constraintlayout.widget.ConstraintLayout>
