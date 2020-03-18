@@ -11,9 +11,7 @@ class CalculatorModel : CalculatorContracts.Model {
 
     override fun clear() {
         firstNumber = EMPTY_STRING
-
         secondNumber = EMPTY_STRING
-
         operator = EMPTY_STRING
     }
 }
