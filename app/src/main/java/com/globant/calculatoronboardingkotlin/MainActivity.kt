@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.activity_main.button_main_subtraction
 
 class MainActivity : AppCompatActivity() {
 
-    private var presenter: CalculatorPresenter? = null
+    private lateinit var presenter: CalculatorPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,58 +54,58 @@ class MainActivity : AppCompatActivity() {
     private fun initOnClickListeners() {
 
         button_main_clear.setOnClickListener {
-            presenter?.onClearButtonPressed()
+            presenter.onClearButtonPressed()
         }
         button_main_delete_current_number.setOnClickListener {
-            presenter?.onDeleteCurrentNumberButtonPressed()
+            presenter.onDeleteCurrentNumberButtonPressed()
         }
         button_main_equals.setOnClickListener {
-            presenter?.onEqualsButtonPressed()
+            presenter.onEqualsButtonPressed()
         }
         button_main_add.setOnClickListener {
-            presenter?.onActionButtonPressed(PLUS)
+            presenter.onActionButtonPressed(PLUS)
         }
         button_main_subtraction.setOnClickListener {
-            presenter?.onActionButtonPressed(MINUS)
+            presenter.onActionButtonPressed(MINUS)
         }
         button_main_multiply.setOnClickListener {
-            presenter?.onActionButtonPressed(MULTIPLY)
+            presenter.onActionButtonPressed(MULTIPLY)
         }
         button_main_divide.setOnClickListener {
-            presenter?.onActionButtonPressed(DIVIDE)
+            presenter.onActionButtonPressed(DIVIDE)
         }
         button_main_number_one.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_ONE)
+            presenter.onNumberButtonPressed(NUMBER_ONE)
         }
         button_main_number_two.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_TWO)
+            presenter.onNumberButtonPressed(NUMBER_TWO)
         }
         button_main_number_three.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_THREE)
+            presenter.onNumberButtonPressed(NUMBER_THREE)
         }
         button_main_number_four.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_FOUR)
+            presenter.onNumberButtonPressed(NUMBER_FOUR)
         }
         button_main_number_five.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_FIVE)
+            presenter.onNumberButtonPressed(NUMBER_FIVE)
         }
         button_main_number_six.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_SIX)
+            presenter.onNumberButtonPressed(NUMBER_SIX)
         }
         button_main_number_seven.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_SEVEN)
+            presenter.onNumberButtonPressed(NUMBER_SEVEN)
         }
         button_main_number_eight.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_EIGHT)
+            presenter.onNumberButtonPressed(NUMBER_EIGHT)
         }
         button_main_number_nine.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_NINE)
+            presenter.onNumberButtonPressed(NUMBER_NINE)
         }
         button_main_number_zero.setOnClickListener {
-            presenter?.onNumberButtonPressed(NUMBER_ZERO)
+            presenter.onNumberButtonPressed(NUMBER_ZERO)
         }
         button_main_dot.setOnClickListener {
-            presenter?.onNumberButtonPressed(DOT)
+            presenter.onNumberButtonPressed(DOT)
         }
     }
 }

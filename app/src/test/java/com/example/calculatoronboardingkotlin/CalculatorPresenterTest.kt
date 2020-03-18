@@ -14,12 +14,12 @@ import org.mockito.Mockito.verify
 
 class CalculatorPresenterTest {
 
-    private val model : CalculatorModel = CalculatorModel()
-    private val mockedView : CalculatorView = mock(CalculatorView::class.java)
-    private val presenter : CalculatorPresenter = CalculatorPresenter(model, mockedView)
+    private val model: CalculatorModel = CalculatorModel()
+    private val mockedView: CalculatorView = mock(CalculatorView::class.java)
+    private val presenter: CalculatorPresenter = CalculatorPresenter(model, mockedView)
 
     @Test
-    fun onClearButtonPressedClearTheModelAndTheView(){
+    fun onClearButtonPressedClearTheModelAndTheView() {
         presenter.onClearButtonPressed()
 
         verify(mockedView).showOperationPressed(EMPTY_STRING)
@@ -31,7 +31,7 @@ class CalculatorPresenterTest {
     }
 
     @Test
-    fun onActionButtonPressedSaveValueOnModelAndShowInput(){
+    fun onActionButtonPressedSaveValueOnModelAndShowInput() {
         presenter.onActionButtonPressed(MINUS)
 
         verify(mockedView).showOperationPressed(MINUS)
@@ -40,7 +40,7 @@ class CalculatorPresenterTest {
     }
 
     @Test
-    fun onNumberButtonPressedSaveValueOnMOdelAndShowInput(){
+    fun onNumberButtonPressedSaveValueOnMOdelAndShowInput() {
         presenter.onNumberButtonPressed(NUMBER_ONE)
 
         verify(mockedView).showNumberPressed(NUMBER_ONE)
