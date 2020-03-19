@@ -8,9 +8,11 @@ import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.EMPTY_ST
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MINUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MULTIPLY
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ZERO
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ONE_INT
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.PLUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_DOT
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_DOUBLE
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_INT
 
 class CalculatorPresenter(
     private val model: CalculatorContracts.Model,
@@ -24,18 +26,30 @@ class CalculatorPresenter(
     }
 
     override fun onDeleteCurrentNumberButtonPressed() {
-        //TODO next Task
+        if (model.firstNumber.isNotEmpty() && model.operator.isEmpty()) {
+            model.firstNumber = deleteAndShowValue(model.firstNumber)
+        } else if (model.operator.isNotEmpty() && model.secondNumber.isEmpty()) {
+            model.operator = deleteAndShowValue(model.operator)
+        } else if (model.secondNumber.isNotEmpty()) {
+            model.secondNumber = deleteAndShowValue(model.secondNumber)
+        }
     }
 
     override fun onActionButtonPressed(action: String) {
         if (model.firstNumber.isNotEmpty()) {
-            if (model.operator.isEmpty()) {
-                if (model.secondNumber.isEmpty()) {
+            if (model.operator.isNotEmpty()) {
+                if (model.secondNumber.isNotEmpty()) {
+                    model.firstNumber = calculateResult()
+                    view.showResult(model.firstNumber)
                     model.operator = action
                     view.showInputPressed(model.operator)
+                    model.secondNumber = EMPTY_STRING
+                } else {
+                    view.showError(ErrorMessages.TOO_MANY_OPERATORS)
                 }
             } else {
-                view.showError(ErrorMessages.TOO_MANY_OPERATORS)
+                model.operator = action
+                view.showInputPressed(model.operator)
             }
         } else {
             view.showError(ErrorMessages.OPERATOR_WITH_NO_NUMBER)
@@ -109,6 +123,15 @@ class CalculatorPresenter(
             }
         }
         return result.toString()
+    }
+
+    private fun deleteAndShowValue(value: String): String {
+        var toReduce = value
+        if (toReduce.isNotEmpty()) {
+            toReduce = toReduce.substring(ZERO_INT, value.length - ONE_INT)
+            view.showInputPressed(toReduce)
+        }
+        return toReduce
     }
 }
 
