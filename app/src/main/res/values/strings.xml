@@ -18,7 +18,6 @@
     <string name="text_equals">=</string>
     <string name="hint_label">0</string>
     <string name="text_dot_button">.</string>
-    <string name="invalid_operation">Invalid operation</string>
     <string name="text_delete_button">Del</string>
     <string name="false_option">false</string>
 </resources>
