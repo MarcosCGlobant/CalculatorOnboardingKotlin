@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             presenter.onNumberButtonPressed(NUMBER_ZERO)
         }
         button_main_dot.setOnClickListener {
-            presenter.onNumberButtonPressed(DOT)
+            presenter.onDotButtonPressed(DOT)
         }
     }
 }

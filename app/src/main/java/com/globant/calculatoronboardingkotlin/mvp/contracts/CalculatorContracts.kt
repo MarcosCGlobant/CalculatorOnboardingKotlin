@@ -1,5 +1,7 @@
 package com.globant.calculatoronboardingkotlin.mvp.contracts
 
+import com.globant.calculatoronboardingkotlin.mvp.presenter.ErrorMessages
+
 interface CalculatorContracts {
     interface Model {
         var firstNumber: String
@@ -11,6 +13,7 @@ interface CalculatorContracts {
     interface View {
         fun showResult(result: String)
         fun showInputPressed(operator: String)
+        fun showError(enum: ErrorMessages)
     }
 
     interface Presenter {
@@ -19,5 +22,6 @@ interface CalculatorContracts {
         fun onActionButtonPressed(action: String)
         fun onEqualsButtonPressed()
         fun onNumberButtonPressed(number: String)
+        fun onDotButtonPressed(dot: String)
     }
 }

@@ -18,5 +18,11 @@ class Constants {
         const val MULTIPLY = "*"
         const val DIVIDE = "/"
         const val EMPTY_STRING = ""
+        const val ZERO_INT = 0
+        const val ONE_INT = 1
+        const val ZERO_DOUBLE = 0.0
+        const val ZERO_DOT = "0."
+        const val ONE_AND_DOT = "1."
+        const val THREE_AND_ZERO = "3.0"
     }
 }
