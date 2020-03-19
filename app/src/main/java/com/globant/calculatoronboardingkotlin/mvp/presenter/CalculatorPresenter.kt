@@ -1,5 +1,6 @@
 package com.globant.calculatoronboardingkotlin.mvp.presenter
 
+import com.globant.calculatoronboardingkotlin.R
 import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDE
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DOT
@@ -111,10 +112,10 @@ class CalculatorPresenter(
     }
 }
 
-enum class ErrorMessages(val message: String) {
-    DIVIDE_BY_ZERO("Tried to divide by zero"),
-    TOO_MANY_DOTS("There is already a dot on the number"),
-    TOO_MANY_OPERATORS("Already an operator chosen, delete it or continue the operation"),
-    OPERATOR_WITH_NO_NUMBER("Insert a number first"),
-    INVALID_OPERATION("Invalid operation")
+enum class ErrorMessages(val message: Int) {
+    DIVIDE_BY_ZERO(R.string.divide_by_zero_message),
+    TOO_MANY_DOTS(R.string.too_many_dots),
+    TOO_MANY_OPERATORS(R.string.too_many_operators),
+    OPERATOR_WITH_NO_NUMBER(R.string.operator_with_no_number),
+    INVALID_OPERATION(R.string.invalid_operation_message)
 }
