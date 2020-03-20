@@ -1,4 +1,4 @@
-package com.example.calculatoronboardingkotlin
+package com.globant.calculatoronboardingkotlin
 
 import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import com.globant.calculatoronboardingkotlin.mvp.model.CalculatorModel
@@ -11,6 +11,7 @@ import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MINUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MULTIPLY
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ONE
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_SIX
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_THIRTY
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_THREE
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_TWO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ZERO
@@ -75,6 +76,22 @@ class CalculatorPresenterTest {
         verify(mockedView).showError(ErrorMessages.OPERATOR_WITH_NO_NUMBER)
 
         assertEquals(EMPTY_STRING, model.operator)
+    }
+
+    @Test
+    fun `on action button pressed with first, second number and operator, save the result on the first number, empty the second number and save the new operator`() {
+        model.firstNumber = NUMBER_ONE
+        model.operator = PLUS
+        model.secondNumber = NUMBER_TWO
+
+        presenter.onActionButtonPressed(MINUS)
+
+        verify(mockedView).showResult(THREE_AND_ZERO)
+        verify(mockedView).showInputPressed(MINUS)
+
+        assertEquals(THREE_AND_ZERO, model.firstNumber)
+        assertEquals(EMPTY_STRING, model.secondNumber)
+        assertEquals(MINUS, model.operator)
     }
 
     @Test
@@ -285,4 +302,42 @@ class CalculatorPresenterTest {
         assertEquals(EMPTY_STRING, model.operator)
     }
 
+    @Test
+    fun `on delete button pressed with only first number, reduce first number and show`() {
+        model.firstNumber = NUMBER_THIRTY
+
+        presenter.onDeleteCurrentNumberButtonPressed()
+
+        verify(mockedView).showInputPressed(NUMBER_THREE)
+
+        assertEquals(NUMBER_THREE, model.firstNumber)
+    }
+
+    @Test
+    fun `on delete button pressed with only first number and operator, delete operator and show`() {
+        model.firstNumber = NUMBER_THIRTY
+        model.operator = PLUS
+
+        presenter.onDeleteCurrentNumberButtonPressed()
+
+        verify(mockedView).showInputPressed(EMPTY_STRING)
+
+        assertEquals(NUMBER_THIRTY, model.firstNumber)
+        assertEquals(EMPTY_STRING, model.operator)
+    }
+
+    @Test
+    fun `on delete button pressed with first, second number and operator, reduce second number and show`() {
+        model.firstNumber = NUMBER_THIRTY
+        model.operator = PLUS
+        model.secondNumber = NUMBER_THIRTY
+
+        presenter.onDeleteCurrentNumberButtonPressed()
+
+        verify(mockedView).showInputPressed(NUMBER_THREE)
+
+        assertEquals(NUMBER_THIRTY, model.firstNumber)
+        assertEquals(NUMBER_THREE, model.secondNumber)
+        assertEquals(PLUS, model.operator)
+    }
 }
