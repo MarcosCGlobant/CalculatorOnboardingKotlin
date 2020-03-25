@@ -22,22 +22,26 @@ class CalculatorView(activity: Activity) : ActivityView(activity), CalculatorCon
     }
 
     override fun showDivideByZeroError() {
-        Toast.makeText(activity, R.string.divide_by_zero_message, Toast.LENGTH_SHORT).show()
+        showErrorMessage(R.string.divide_by_zero_message)
     }
 
     override fun showTooManyDotsError() {
-        Toast.makeText(activity, R.string.too_many_dots, Toast.LENGTH_SHORT).show()
+        showErrorMessage(R.string.too_many_dots)
     }
 
     override fun showTooManyOperatorsError() {
-        Toast.makeText(activity, R.string.too_many_operators, Toast.LENGTH_SHORT).show()
+        showErrorMessage(R.string.too_many_operators)
     }
 
     override fun showOperatorWithNoNumberError() {
-        Toast.makeText(activity, R.string.operator_with_no_number, Toast.LENGTH_SHORT).show()
+        showErrorMessage(R.string.operator_with_no_number)
     }
 
     override fun showInvalidOperationError() {
-        Toast.makeText(activity, R.string.invalid_operation_message, Toast.LENGTH_SHORT).show()
+        showErrorMessage(R.string.invalid_operation_message)
+    }
+
+    private fun showErrorMessage(message: Int) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 }
