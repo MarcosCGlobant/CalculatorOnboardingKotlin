@@ -1,17 +1,12 @@
 package com.globant.calculatoronboardingkotlin.mvp.presenter
 
-import com.globant.calculatoronboardingkotlin.R
 import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDE
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDING_BY_ZERO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DOT
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.EMPTY_STRING
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MINUS
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MULTIPLY
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ZERO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ONE_INT
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.PLUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_DOT
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_DOUBLE
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_INT
 
 class CalculatorPresenter(
@@ -39,34 +34,41 @@ class CalculatorPresenter(
         if (model.firstNumber.isNotEmpty()) {
             if (model.operator.isNotEmpty()) {
                 if (model.secondNumber.isNotEmpty()) {
-                    model.firstNumber = calculateResult()
+                    model.firstNumber = model.calculateResult()
                     view.showResult(model.firstNumber)
                     model.operator = action
                     view.showInputPressed(model.operator)
                     model.secondNumber = EMPTY_STRING
                 } else {
-                    view.showError(ErrorMessages.TOO_MANY_OPERATORS)
+                    view.showTooManyOperatorsError()
                 }
             } else {
                 model.operator = action
                 view.showInputPressed(model.operator)
             }
         } else {
-            view.showError(ErrorMessages.OPERATOR_WITH_NO_NUMBER)
+            view.showOperatorWithNoNumberError()
         }
     }
 
     override fun onEqualsButtonPressed() {
+        val result: String
         if ((model.firstNumber.isNotEmpty()) && (model.secondNumber.isNotEmpty()) &&
             (model.firstNumber != ZERO_DOT) && (model.secondNumber != ZERO_DOT)
         ) {
-            view.showResult(calculateResult())
+            result = model.calculateResult()
+            if (result == DIVIDING_BY_ZERO) {
+                view.showDivideByZeroError()
+                onClearButtonPressed()
+            } else {
+                view.showResult(result)
+            }
             model.clear()
         } else if (model.operator.isEmpty() && (model.firstNumber != ZERO_DOT)) {
             view.showResult(model.firstNumber)
             model.clear()
         } else {
-            view.showError(ErrorMessages.INVALID_OPERATION)
+            view.showInvalidOperationError()
             onClearButtonPressed()
         }
     }
@@ -92,7 +94,7 @@ class CalculatorPresenter(
                 model.firstNumber = "${model.firstNumber}$dot"
                 view.showInputPressed(model.firstNumber)
             } else {
-                view.showError(ErrorMessages.TOO_MANY_DOTS)
+                view.showTooManyDotsError()
             }
         } else if (model.operator.isNotEmpty()) {
             if (model.secondNumber.isEmpty()) {
@@ -102,28 +104,11 @@ class CalculatorPresenter(
                 model.secondNumber = "${model.secondNumber}$dot"
                 view.showInputPressed(model.secondNumber)
             } else {
-                view.showError(ErrorMessages.TOO_MANY_DOTS)
+                view.showTooManyDotsError()
             }
         }
     }
 
-    private fun calculateResult(): String {
-        val firstNumber = model.firstNumber.toDouble()
-        val secondNumber = model.secondNumber.toDouble()
-        var result: Double = ZERO_DOUBLE
-        when (model.operator) {
-            PLUS -> result = firstNumber + secondNumber
-            MINUS -> result = firstNumber - secondNumber
-            MULTIPLY -> result = firstNumber * secondNumber
-            DIVIDE -> if (secondNumber == ZERO_DOUBLE) {
-                onClearButtonPressed()
-                view.showError(ErrorMessages.DIVIDE_BY_ZERO)
-            } else {
-                result = firstNumber / secondNumber
-            }
-        }
-        return result.toString()
-    }
 
     private fun deleteAndShowValue(value: String): String {
         var toReduce = value
@@ -133,12 +118,4 @@ class CalculatorPresenter(
         }
         return toReduce
     }
-}
-
-enum class ErrorMessages(val message: Int) {
-    DIVIDE_BY_ZERO(R.string.divide_by_zero_message),
-    TOO_MANY_DOTS(R.string.too_many_dots),
-    TOO_MANY_OPERATORS(R.string.too_many_operators),
-    OPERATOR_WITH_NO_NUMBER(R.string.operator_with_no_number),
-    INVALID_OPERATION(R.string.invalid_operation_message)
 }

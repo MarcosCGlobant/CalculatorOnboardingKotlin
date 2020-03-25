@@ -3,7 +3,6 @@ package com.globant.calculatoronboardingkotlin
 import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import com.globant.calculatoronboardingkotlin.mvp.model.CalculatorModel
 import com.globant.calculatoronboardingkotlin.mvp.presenter.CalculatorPresenter
-import com.globant.calculatoronboardingkotlin.mvp.presenter.ErrorMessages
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDE
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DOT
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.EMPTY_STRING
@@ -64,7 +63,7 @@ class CalculatorPresenterTest {
 
         presenter.onActionButtonPressed(MINUS)
 
-        verify(mockedView).showError(ErrorMessages.TOO_MANY_OPERATORS)
+        verify(mockedView).showTooManyOperatorsError()
 
         assertEquals(PLUS, model.operator)
     }
@@ -73,7 +72,7 @@ class CalculatorPresenterTest {
     fun `on action button pressed without first number, show error "OPERATOR WITH NO NUMBER"`() {
         presenter.onActionButtonPressed(MINUS)
 
-        verify(mockedView).showError(ErrorMessages.OPERATOR_WITH_NO_NUMBER)
+        verify(mockedView).showOperatorWithNoNumberError()
 
         assertEquals(EMPTY_STRING, model.operator)
     }
@@ -131,7 +130,7 @@ class CalculatorPresenterTest {
 
         presenter.onEqualsButtonPressed()
 
-        verify(mockedView).showError(ErrorMessages.INVALID_OPERATION)
+        verify(mockedView).showInvalidOperationError()
 
         assertEquals(EMPTY_STRING, model.firstNumber)
         assertEquals(EMPTY_STRING, model.secondNumber)
@@ -191,7 +190,7 @@ class CalculatorPresenterTest {
 
         presenter.onDotButtonPressed(DOT)
 
-        verify(mockedView).showError(ErrorMessages.TOO_MANY_DOTS)
+        verify(mockedView).showTooManyDotsError()
 
         assertEquals(ONE_AND_DOT, model.firstNumber)
         assertEquals(EMPTY_STRING, model.secondNumber)
@@ -235,7 +234,7 @@ class CalculatorPresenterTest {
 
         presenter.onDotButtonPressed(DOT)
 
-        verify(mockedView).showError(ErrorMessages.TOO_MANY_DOTS)
+        verify(mockedView).showTooManyDotsError()
 
         assertEquals(NUMBER_ONE, model.firstNumber)
         assertEquals(ONE_AND_DOT, model.secondNumber)
@@ -295,7 +294,7 @@ class CalculatorPresenterTest {
 
         presenter.onEqualsButtonPressed()
 
-        verify(mockedView).showError(ErrorMessages.DIVIDE_BY_ZERO)
+        verify(mockedView).showDivideByZeroError()
 
         assertEquals(EMPTY_STRING, model.firstNumber)
         assertEquals(EMPTY_STRING, model.secondNumber)

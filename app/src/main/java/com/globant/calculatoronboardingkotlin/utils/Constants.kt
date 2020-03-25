@@ -25,5 +25,6 @@ class Constants {
         const val ONE_AND_DOT = "1."
         const val THREE_AND_ZERO = "3.0"
         const val NUMBER_THIRTY = "30"
+        const val DIVIDING_BY_ZERO = "dividing by zero"
     }
 }

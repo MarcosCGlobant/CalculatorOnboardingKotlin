@@ -5,7 +5,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.globant.calculatoronboardingkotlin.R
 import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
-import com.globant.calculatoronboardingkotlin.mvp.presenter.ErrorMessages
 import kotlinx.android.synthetic.main.activity_main.calculation_label
 import kotlinx.android.synthetic.main.activity_main.input_label
 
@@ -22,8 +21,23 @@ class CalculatorView(activity: Activity) : ActivityView(activity), CalculatorCon
         inputLabel.text = operator
     }
 
-    override fun showError(enum: ErrorMessages) {
-        Toast.makeText(activity, enum.message, Toast.LENGTH_SHORT).show()
+    override fun showDivideByZeroError() {
+        Toast.makeText(activity, R.string.divide_by_zero_message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun showTooManyDotsError() {
+        Toast.makeText(activity, R.string.too_many_dots, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showTooManyOperatorsError() {
+        Toast.makeText(activity, R.string.too_many_operators, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showOperatorWithNoNumberError() {
+        Toast.makeText(activity, R.string.operator_with_no_number, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showInvalidOperationError() {
+        Toast.makeText(activity, R.string.invalid_operation_message, Toast.LENGTH_SHORT).show()
+    }
 }
