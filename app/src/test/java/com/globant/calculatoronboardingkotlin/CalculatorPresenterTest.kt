@@ -78,22 +78,6 @@ class CalculatorPresenterTest {
     }
 
     @Test
-    fun `on action button pressed with first, second number and operator, save the result on the first number, empty the second number and save the new operator`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
-        model.secondNumber = NUMBER_TWO
-
-        presenter.onActionButtonPressed(MINUS)
-
-        verify(mockedView).showResult(THREE_AND_ZERO)
-        verify(mockedView).showInputPressed(MINUS)
-
-        assertEquals(THREE_AND_ZERO, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(MINUS, model.operator)
-    }
-
-    @Test
     fun `on equals button pressed with both numbers and operator, show result and clear model`() {
         model.firstNumber = NUMBER_ONE
         model.operator = PLUS
@@ -103,20 +87,7 @@ class CalculatorPresenterTest {
 
         verify(mockedView).showResult(THREE_AND_ZERO)
 
-        assertEquals(EMPTY_STRING, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on equals button pressed with just the first number, show result and clear model`() {
-        model.firstNumber = NUMBER_ONE
-
-        presenter.onEqualsButtonPressed()
-
-        verify(mockedView).showResult(NUMBER_ONE)
-
-        assertEquals(EMPTY_STRING, model.firstNumber)
+        assertEquals(THREE_AND_ZERO, model.firstNumber)
         assertEquals(EMPTY_STRING, model.secondNumber)
         assertEquals(EMPTY_STRING, model.operator)
     }
@@ -251,7 +222,7 @@ class CalculatorPresenterTest {
 
         verify(mockedView).showResult(THREE_AND_ZERO)
 
-        assertEquals(EMPTY_STRING, model.firstNumber)
+        assertEquals(THREE_AND_ZERO, model.firstNumber)
         assertEquals(EMPTY_STRING, model.secondNumber)
         assertEquals(EMPTY_STRING, model.operator)
     }
@@ -266,7 +237,7 @@ class CalculatorPresenterTest {
 
         verify(mockedView).showResult(THREE_AND_ZERO)
 
-        assertEquals(EMPTY_STRING, model.firstNumber)
+        assertEquals(THREE_AND_ZERO, model.firstNumber)
         assertEquals(EMPTY_STRING, model.secondNumber)
         assertEquals(EMPTY_STRING, model.operator)
     }
@@ -281,7 +252,7 @@ class CalculatorPresenterTest {
 
         verify(mockedView).showResult(THREE_AND_ZERO)
 
-        assertEquals(EMPTY_STRING, model.firstNumber)
+        assertEquals(THREE_AND_ZERO, model.firstNumber)
         assertEquals(EMPTY_STRING, model.secondNumber)
         assertEquals(EMPTY_STRING, model.operator)
     }

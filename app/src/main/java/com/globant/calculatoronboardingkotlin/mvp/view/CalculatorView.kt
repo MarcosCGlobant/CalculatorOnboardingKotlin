@@ -41,6 +41,10 @@ class CalculatorView(activity: Activity) : ActivityView(activity), CalculatorCon
         showErrorMessage(R.string.invalid_operation_message)
     }
 
+    override fun showInputsAreFullError() {
+        showErrorMessage(R.string.inputs_are_full)
+    }
+
     private fun showErrorMessage(message: Int) {
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }

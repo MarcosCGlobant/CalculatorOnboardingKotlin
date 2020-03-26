@@ -26,5 +26,9 @@ class Constants {
         const val THREE_AND_ZERO = "3.0"
         const val NUMBER_THIRTY = "30"
         const val DIVIDING_BY_ZERO = "dividing by zero"
+        const val TOO_MANY_DOTS = "too many dots"
+        const val TOO_MANY_OPERATORS = "too many operators"
+        const val OPERATION_WITH_NO_NUMBER = "operation with no number"
+        const val INPUTS_ARE_FULL = "inputs are full"
     }
 }

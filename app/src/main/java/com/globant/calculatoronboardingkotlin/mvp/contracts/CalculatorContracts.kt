@@ -7,6 +7,11 @@ interface CalculatorContracts {
         var operator: String
         fun clear()
         fun calculateResult(): String
+        fun appendNumber(number: String): String
+        fun appendDot(dot: String): String
+        fun addOperator(operation: String): String
+        fun deleteValue () : String
+        fun isOperationCompatible(): Boolean
     }
 
     interface View {
@@ -17,6 +22,7 @@ interface CalculatorContracts {
         fun showTooManyOperatorsError()
         fun showOperatorWithNoNumberError()
         fun showInvalidOperationError()
+        fun showInputsAreFullError()
     }
 
     interface Presenter {

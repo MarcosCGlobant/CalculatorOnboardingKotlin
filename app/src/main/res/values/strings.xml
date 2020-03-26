@@ -23,6 +23,7 @@
     <string name="too_many_operators">Already an operator chosen, delete it or continue the operation</string>
     <string name="operator_with_no_number">Insert a number first</string>
     <string name="invalid_operation_message">Invalid operation</string>
+    <string name="inputs_are_full">Inputs are full, modify the second number, push EQUALS or CLEAR the calculator</string>
     <string name="text_delete_button">Del</string>
     <string name="false_option">false</string>
 </resources>
