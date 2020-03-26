@@ -50,7 +50,7 @@ class CalculatorModel : CalculatorContracts.Model {
 
     override fun appendNumber(number: String): String {
         var value: String = EMPTY_STRING
-        if (result == firstNumber) {
+        if ((result == firstNumber) && (operator.isEmpty())) {
             clear()
         }
 
