@@ -10,11 +10,14 @@ import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.INPUTS_A
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MINUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MULTIPLY
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ZERO
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ONE_INT
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.OPERATION_WITH_NO_NUMBER
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.PLUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_DOTS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_OPERATORS
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_DOT
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_DOUBLE
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_INT
 
 class CalculatorModel : CalculatorContracts.Model {
 
@@ -54,7 +57,7 @@ class CalculatorModel : CalculatorContracts.Model {
             clear()
         }
 
-        if (operator == EMPTY_STRING) {
+        if (operator.isEmpty()) {
             if (secondNumber.isEmpty()) {
                 firstNumber = "${firstNumber}$number"
                 value = firstNumber
@@ -127,14 +130,14 @@ class CalculatorModel : CalculatorContracts.Model {
 
     override fun isOperationCompatible(): Boolean {
         return (firstNumber.isNotEmpty()) && (secondNumber.isNotEmpty()) &&
-                (firstNumber != Constants.ZERO_DOT) && (secondNumber != Constants.ZERO_DOT) &&
-                (operator != EMPTY_STRING)
+                (firstNumber != ZERO_DOT) && (secondNumber != ZERO_DOT) &&
+                (operator.isNotEmpty())
     }
 
     private fun reduceValue(value: String): String {
         var toReduce = value
         if (toReduce.isNotEmpty()) {
-            toReduce = toReduce.substring(Constants.ZERO_INT, value.length - Constants.ONE_INT)
+            toReduce = toReduce.substring(ZERO_INT, value.length - ONE_INT)
         }
         return toReduce
     }
