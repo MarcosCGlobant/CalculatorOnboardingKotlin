@@ -28,7 +28,7 @@ class Constants {
         const val DIVIDING_BY_ZERO = "dividing by zero"
         const val TOO_MANY_DOTS = "too many dots"
         const val TOO_MANY_OPERATORS = "too many operators"
-        const val OPERATION_WITH_NO_NUMBER = "operation with no number"
+        const val OPERATOR_WITH_NO_NUMBER = "operation with no number"
         const val INPUTS_ARE_FULL = "inputs are full"
     }
 }

@@ -1,313 +1,151 @@
 package com.globant.calculatoronboardingkotlin
 
 import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
-import com.globant.calculatoronboardingkotlin.mvp.model.CalculatorModel
 import com.globant.calculatoronboardingkotlin.mvp.presenter.CalculatorPresenter
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDE
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDING_BY_ZERO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DOT
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.EMPTY_STRING
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MINUS
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MULTIPLY
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ONE
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.INPUTS_ARE_FULL
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_SIX
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_THIRTY
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_THREE
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_TWO
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ZERO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ONE_AND_DOT
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.OPERATOR_WITH_NO_NUMBER
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.PLUS
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.THREE_AND_ZERO
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_DOT
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_DOTS
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_OPERATORS
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Test
-import org.junit.Assert.assertEquals
+import java.lang.Boolean.FALSE
+import java.lang.Boolean.TRUE
 
 class CalculatorPresenterTest {
 
-    private val model: CalculatorContracts.Model = CalculatorModel()
+    private val mockedModel: CalculatorContracts.Model = mock()
     private val mockedView: CalculatorContracts.View = mock()
-    private val presenter: CalculatorContracts.Presenter = CalculatorPresenter(model, mockedView)
+    private val presenter: CalculatorContracts.Presenter = CalculatorPresenter(mockedModel, mockedView)
 
     @Test
-    fun `on clear button pressed with operator, first and second number loaded, clear model`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
-        model.secondNumber = NUMBER_TWO
-
+    fun `on clear button pressed, clear the model and the labels`() {
         presenter.onClearButtonPressed()
 
+        verify(mockedModel).clear()
         verify(mockedView).showInputPressed(EMPTY_STRING)
         verify(mockedView).showResult(EMPTY_STRING)
-
-        assertEquals(EMPTY_STRING, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
     }
 
     @Test
-    fun `on action button pressed with only the first number, show operator`() {
-        model.firstNumber = NUMBER_ONE
+    fun `on delete button pressed, delete the value and show the changed input`() {
+        whenever(mockedModel.deleteValue()).doReturn(NUMBER_SIX)
 
-        presenter.onActionButtonPressed(MINUS)
+        presenter.onDeleteCurrentNumberButtonPressed()
 
-        verify(mockedView).showInputPressed(MINUS)
-
-        assertEquals(MINUS, model.operator)
+        verify(mockedModel).deleteValue()
+        verify(mockedView).showInputPressed(NUMBER_SIX)
     }
 
     @Test
-    fun `on action button pressed with first number and operator, show error "TOO MANY OPERATORS"`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
+    fun `on action button pressed, save operator on the model and show the input`() {
+        whenever(mockedModel.addOperator(PLUS)).doReturn(PLUS)
 
-        presenter.onActionButtonPressed(MINUS)
+        presenter.onActionButtonPressed(PLUS)
 
+        verify(mockedModel).addOperator(PLUS)
+        verify(mockedView).showInputPressed(PLUS)
+    }
+
+    @Test
+    fun `on action button pressed, with already an operator, show error "TOO MANY OPERATORS"`() {
+        whenever(mockedModel.addOperator(PLUS)).doReturn(TOO_MANY_OPERATORS)
+
+        presenter.onActionButtonPressed(PLUS)
+
+        verify(mockedModel).addOperator(PLUS)
         verify(mockedView).showTooManyOperatorsError()
-
-        assertEquals(PLUS, model.operator)
     }
 
     @Test
-    fun `on action button pressed without first number, show error "OPERATOR WITH NO NUMBER"`() {
-        presenter.onActionButtonPressed(MINUS)
+    fun `on action button pressed, without the first number, show the error "OPERATOR WITH NO NUMBER"`() {
+        whenever(mockedModel.addOperator(PLUS)).doReturn(OPERATOR_WITH_NO_NUMBER)
 
+        presenter.onActionButtonPressed(PLUS)
+
+        verify(mockedModel).addOperator(PLUS)
         verify(mockedView).showOperatorWithNoNumberError()
-
-        assertEquals(EMPTY_STRING, model.operator)
     }
 
     @Test
-    fun `on equals button pressed with both numbers and operator, show result and clear model`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
-        model.secondNumber = NUMBER_TWO
+    fun `on action button pressed, with all the inputs full, show the error "INPUTS ARE FULL"`() {
+        whenever(mockedModel.addOperator(PLUS)).doReturn(INPUTS_ARE_FULL)
+
+        presenter.onActionButtonPressed(PLUS)
+
+        verify(mockedModel).addOperator(PLUS)
+        verify(mockedView).showInputsAreFullError()
+    }
+
+    @Test
+    fun `on equals button pressed, if operation is compatible, show the result`() {
+        whenever(mockedModel.isOperationCompatible()).doReturn(TRUE)
+        whenever(mockedModel.calculateResult()).doReturn(NUMBER_SIX)
 
         presenter.onEqualsButtonPressed()
 
-        verify(mockedView).showResult(THREE_AND_ZERO)
-
-        assertEquals(THREE_AND_ZERO, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
+        verify(mockedModel).isOperationCompatible()
+        verify(mockedModel).calculateResult()
+        verify(mockedView).showResult(NUMBER_SIX)
     }
 
     @Test
-    fun `on equals button pressed with an invalid operation (dots as numbers), show error "INVALID OPERATION" and clear model`() {
-        model.firstNumber = ZERO_DOT
-        model.operator = PLUS
-        model.secondNumber = ZERO_DOT
-
+    fun `on equals button pressed if operation is compatible, but result is "DIVIDING BY ZERO", show error "DIVIDING BY ZERO"`() {
+        whenever(mockedModel.isOperationCompatible()).doReturn(TRUE)
+        whenever(mockedModel.calculateResult()).doReturn(DIVIDING_BY_ZERO)
 
         presenter.onEqualsButtonPressed()
 
-        verify(mockedView).showInvalidOperationError()
-
-        assertEquals(EMPTY_STRING, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on number button pressed without operator and second number, save on first number and show`() {
-        presenter.onNumberButtonPressed(NUMBER_ONE)
-
-        verify(mockedView).showInputPressed(NUMBER_ONE)
-
-        assertEquals(NUMBER_ONE, model.firstNumber)
-    }
-
-    @Test
-    fun `on number button pressed with operator and first number, save on second number and show`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
-
-        presenter.onNumberButtonPressed(NUMBER_ONE)
-
-        verify(mockedView).showInputPressed(NUMBER_ONE)
-
-        assertEquals(NUMBER_ONE, model.firstNumber)
-        assertEquals(NUMBER_ONE, model.secondNumber)
-        assertEquals(PLUS, model.operator)
-    }
-
-    @Test
-    fun `on dot button pressed without first, second number or operator, save on first number and show`() {
-        presenter.onDotButtonPressed(DOT)
-
-        verify(mockedView).showInputPressed(ZERO_DOT)
-
-        assertEquals(ZERO_DOT, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on dot button pressed with first number and without second number or operator, add to first number and show`() {
-        model.firstNumber = NUMBER_ONE
-
-        presenter.onDotButtonPressed(DOT)
-
-        verify(mockedView).showInputPressed(ONE_AND_DOT)
-
-        assertEquals(ONE_AND_DOT, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on dot button pressed with first number with dot, and without second number or operator, show error "TOO MANY DOTS"`() {
-        model.firstNumber = ONE_AND_DOT
-
-        presenter.onDotButtonPressed(DOT)
-
-        verify(mockedView).showTooManyDotsError()
-
-        assertEquals(ONE_AND_DOT, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on dot button pressed with first number and operator, and without second number, save on second number and show`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
-
-        presenter.onDotButtonPressed(DOT)
-
-        verify(mockedView).showInputPressed(ZERO_DOT)
-
-        assertEquals(NUMBER_ONE, model.firstNumber)
-        assertEquals(ZERO_DOT, model.secondNumber)
-        assertEquals(PLUS, model.operator)
-    }
-
-    @Test
-    fun `on dot button pressed with first number and operator, and with second number, add to second number and show`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
-        model.secondNumber = NUMBER_ONE
-
-        presenter.onDotButtonPressed(DOT)
-
-        verify(mockedView).showInputPressed(ONE_AND_DOT)
-
-        assertEquals(NUMBER_ONE, model.firstNumber)
-        assertEquals(ONE_AND_DOT, model.secondNumber)
-        assertEquals(PLUS, model.operator)
-    }
-
-    @Test
-    fun `on dot button pressed with first number and operator, and second number with dot, show error "TOO MANY DOTS"`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = PLUS
-        model.secondNumber = ONE_AND_DOT
-
-        presenter.onDotButtonPressed(DOT)
-
-        verify(mockedView).showTooManyDotsError()
-
-        assertEquals(NUMBER_ONE, model.firstNumber)
-        assertEquals(ONE_AND_DOT, model.secondNumber)
-        assertEquals(PLUS, model.operator)
-    }
-
-    @Test
-    fun `on equals button pressed with both numbers and operator MINUS, show result and clear model`() {
-        model.firstNumber = NUMBER_SIX
-        model.operator = MINUS
-        model.secondNumber = NUMBER_THREE
-
-        presenter.onEqualsButtonPressed()
-
-        verify(mockedView).showResult(THREE_AND_ZERO)
-
-        assertEquals(THREE_AND_ZERO, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on equals button pressed with both numbers and operator MULTIPLY, show result and clear model`() {
-        model.firstNumber = NUMBER_THREE
-        model.operator = MULTIPLY
-        model.secondNumber = NUMBER_ONE
-
-        presenter.onEqualsButtonPressed()
-
-        verify(mockedView).showResult(THREE_AND_ZERO)
-
-        assertEquals(THREE_AND_ZERO, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on equals button pressed with both numbers and operator DIVIDE, show result and clear model`() {
-        model.firstNumber = NUMBER_THREE
-        model.operator = DIVIDE
-        model.secondNumber = NUMBER_ONE
-
-        presenter.onEqualsButtonPressed()
-
-        verify(mockedView).showResult(THREE_AND_ZERO)
-
-        assertEquals(THREE_AND_ZERO, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
-    }
-
-    @Test
-    fun `on equals button pressed trying to divide by zero, show error "DIVIDE BY ZERO" and clear model`() {
-        model.firstNumber = NUMBER_ONE
-        model.operator = DIVIDE
-        model.secondNumber = NUMBER_ZERO
-
-        presenter.onEqualsButtonPressed()
-
+        verify(mockedModel).isOperationCompatible()
+        verify(mockedModel).calculateResult()
         verify(mockedView).showDivideByZeroError()
-
-        assertEquals(EMPTY_STRING, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.secondNumber)
-        assertEquals(EMPTY_STRING, model.operator)
     }
 
     @Test
-    fun `on delete button pressed with only first number, reduce first number and show`() {
-        model.firstNumber = NUMBER_THIRTY
+    fun `on equals button pressed, if operation is incompatible, show the result`() {
+        whenever(mockedModel.isOperationCompatible()).doReturn(FALSE)
 
-        presenter.onDeleteCurrentNumberButtonPressed()
+        presenter.onEqualsButtonPressed()
 
-        verify(mockedView).showInputPressed(NUMBER_THREE)
-
-        assertEquals(NUMBER_THREE, model.firstNumber)
+        verify(mockedModel).isOperationCompatible()
+        verify(mockedView).showInvalidOperationError()
     }
 
     @Test
-    fun `on delete button pressed with only first number and operator, delete operator and show`() {
-        model.firstNumber = NUMBER_THIRTY
-        model.operator = PLUS
+    fun `on number button pressed, save number on the model and show the input`() {
+        whenever(mockedModel.appendNumber(NUMBER_SIX)).doReturn(NUMBER_SIX)
 
-        presenter.onDeleteCurrentNumberButtonPressed()
+        presenter.onNumberButtonPressed(NUMBER_SIX)
 
-        verify(mockedView).showInputPressed(EMPTY_STRING)
-
-        assertEquals(NUMBER_THIRTY, model.firstNumber)
-        assertEquals(EMPTY_STRING, model.operator)
+        verify(mockedModel).appendNumber(NUMBER_SIX)
+        verify(mockedView).showInputPressed(NUMBER_SIX)
     }
 
     @Test
-    fun `on delete button pressed with first, second number and operator, reduce second number and show`() {
-        model.firstNumber = NUMBER_THIRTY
-        model.operator = PLUS
-        model.secondNumber = NUMBER_THIRTY
+    fun `on dot button pressed, append the dot on the number and show the input`() {
+        whenever(mockedModel.appendDot(DOT)).doReturn(ONE_AND_DOT)
 
-        presenter.onDeleteCurrentNumberButtonPressed()
+        presenter.onDotButtonPressed(DOT)
 
-        verify(mockedView).showInputPressed(NUMBER_THREE)
+        verify(mockedModel).appendDot(DOT)
+        verify(mockedView).showInputPressed(ONE_AND_DOT)
+    }
 
-        assertEquals(NUMBER_THIRTY, model.firstNumber)
-        assertEquals(NUMBER_THREE, model.secondNumber)
-        assertEquals(PLUS, model.operator)
+    @Test
+    fun `on dot button pressed, try to append another dot on a number with a dot and show the error "TOO MANY DOTS`() {
+        whenever(mockedModel.appendDot(DOT)).doReturn(TOO_MANY_DOTS)
+
+        presenter.onDotButtonPressed(DOT)
+
+        verify(mockedModel).appendDot(DOT)
+        verify(mockedView).showTooManyDotsError()
     }
 }

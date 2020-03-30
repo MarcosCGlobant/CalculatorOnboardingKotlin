@@ -1,7 +1,6 @@
 package com.globant.calculatoronboardingkotlin.mvp.model
 
 import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
-import com.globant.calculatoronboardingkotlin.utils.Constants
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDE
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDING_BY_ZERO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DOT
@@ -11,7 +10,7 @@ import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MINUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.MULTIPLY
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.NUMBER_ZERO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ONE_INT
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.OPERATION_WITH_NO_NUMBER
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.OPERATOR_WITH_NO_NUMBER
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.PLUS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_DOTS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_OPERATORS
@@ -21,10 +20,10 @@ import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.ZERO_INT
 
 class CalculatorModel : CalculatorContracts.Model {
 
-    override var firstNumber: String = EMPTY_STRING
-    override var secondNumber: String = EMPTY_STRING
-    override var operator: String = EMPTY_STRING
-    var result: String = EMPTY_STRING
+    private var firstNumber: String = EMPTY_STRING
+    private var secondNumber: String = EMPTY_STRING
+    private var operator: String = EMPTY_STRING
+    private var result: String = EMPTY_STRING
 
     override fun clear() {
         firstNumber = EMPTY_STRING
@@ -35,13 +34,13 @@ class CalculatorModel : CalculatorContracts.Model {
 
     override fun calculateResult(): String {
         result = when (operator) {
-            PLUS -> firstNumber.toDouble() + secondNumber.toDouble()
-            MINUS -> firstNumber.toDouble() - secondNumber.toDouble()
-            MULTIPLY -> firstNumber.toDouble() * secondNumber.toDouble()
+            PLUS -> firstNumber.toDouble().plus(secondNumber.toDouble())
+            MINUS -> firstNumber.toDouble().minus(secondNumber.toDouble())
+            MULTIPLY -> firstNumber.toDouble().times(secondNumber.toDouble())
             DIVIDE -> if (secondNumber.toDouble() == ZERO_DOUBLE) {
                 return DIVIDING_BY_ZERO
             } else {
-                firstNumber.toDouble() / secondNumber.toDouble()
+                firstNumber.toDouble().div(secondNumber.toDouble())
             }
             else -> EMPTY_STRING
         }.toString()
@@ -59,11 +58,11 @@ class CalculatorModel : CalculatorContracts.Model {
 
         if (operator.isEmpty()) {
             if (secondNumber.isEmpty()) {
-                firstNumber = "${firstNumber}$number"
+                firstNumber = "$firstNumber$number"
                 value = firstNumber
             }
         } else {
-            secondNumber = "${secondNumber}$number"
+            secondNumber = "$secondNumber$number"
             value = secondNumber
         }
         return value
@@ -73,20 +72,20 @@ class CalculatorModel : CalculatorContracts.Model {
         var result: String = EMPTY_STRING
         if ((secondNumber.isEmpty()) && (operator.isEmpty())) {
             if (firstNumber.isEmpty()) {
-                firstNumber = "${NUMBER_ZERO}$dot"
+                firstNumber = "$NUMBER_ZERO$dot"
                 result = firstNumber
             } else if (!firstNumber.contains(DOT)) {
-                firstNumber = "${firstNumber}$dot"
+                firstNumber = "$firstNumber$dot"
                 result = firstNumber
             } else {
                 result = TOO_MANY_DOTS
             }
         } else if (operator.isNotEmpty()) {
             if (secondNumber.isEmpty()) {
-                secondNumber = "${NUMBER_ZERO}$dot"
+                secondNumber = "$NUMBER_ZERO$dot"
                 result = secondNumber
             } else if (!secondNumber.contains(DOT)) {
-                secondNumber = "${secondNumber}$dot"
+                secondNumber = "$secondNumber$dot"
                 result = secondNumber
             } else {
                 result = TOO_MANY_DOTS
@@ -107,7 +106,7 @@ class CalculatorModel : CalculatorContracts.Model {
                 addedOperator = INPUTS_ARE_FULL
             }
         } else {
-            addedOperator = OPERATION_WITH_NO_NUMBER
+            addedOperator = OPERATOR_WITH_NO_NUMBER
         }
         return addedOperator
     }

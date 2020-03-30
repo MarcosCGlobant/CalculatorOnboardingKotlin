@@ -4,7 +4,7 @@ import com.globant.calculatoronboardingkotlin.mvp.contracts.CalculatorContracts
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.DIVIDING_BY_ZERO
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.EMPTY_STRING
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.INPUTS_ARE_FULL
-import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.OPERATION_WITH_NO_NUMBER
+import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.OPERATOR_WITH_NO_NUMBER
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_DOTS
 import com.globant.calculatoronboardingkotlin.utils.Constants.Companion.TOO_MANY_OPERATORS
 
@@ -29,7 +29,7 @@ class CalculatorPresenter(
             TOO_MANY_OPERATORS -> {
                 view.showTooManyOperatorsError()
             }
-            OPERATION_WITH_NO_NUMBER -> {
+            OPERATOR_WITH_NO_NUMBER -> {
                 view.showOperatorWithNoNumberError()
             }
             INPUTS_ARE_FULL -> {

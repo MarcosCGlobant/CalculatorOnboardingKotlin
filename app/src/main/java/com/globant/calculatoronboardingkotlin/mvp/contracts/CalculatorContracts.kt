@@ -2,9 +2,6 @@ package com.globant.calculatoronboardingkotlin.mvp.contracts
 
 interface CalculatorContracts {
     interface Model {
-        var firstNumber: String
-        var secondNumber: String
-        var operator: String
         fun clear()
         fun calculateResult(): String
         fun appendNumber(number: String): String
